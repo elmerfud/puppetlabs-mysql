@@ -1,9 +1,11 @@
 [client]
 port    = <%= port %>
 socket    = <%= socket %>
+
 [mysqld_safe]
 socket    = <%= socket %>
 nice    = 0
+
 [mysqld]
 user    = mysql
 socket    = <%= socket %>
@@ -13,16 +15,26 @@ datadir   = <%= datadir %>
 tmpdir    = /tmp
 skip-external-locking
 bind-address    = <%= bind_address %>
-key_buffer         = 16M
+key_buffer         = 512M
 max_allowed_packet = 16M
 thread_stack       = 192K
-thread_cache_size  = 8
+thread_cache_size  = 128
 myisam-recover     = BACKUP
-query_cache_limit  = 1M
-query_cache_size   = 16M
+query_cache_limit  = 16M
+query_cache_size   = 64M
 log_error          = <%= log_error %>
 expire_logs_days   = 10
 max_binlog_size    = 100M
+
+innodb_file_per_table
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_flush_log_at_trx_commit = 2
+innodb_thread_concurrency = 12 # upto 2x #CPU
+innodb_lock_wait_timeout = 60
+innodb_log_buffer_size = 32M
+innodb_log_file_size = 512M
+innodb_additional_mem_pool_size = 20M
+innodb_buffer_pool_size = 8G
 
 <% if ssl == true %>
 ssl-ca    = <%= ssl_ca %>
