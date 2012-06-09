@@ -25,8 +25,11 @@ query_cache_size   = 64M
 log_error          = <%= log_error %>
 expire_logs_days   = 10
 max_binlog_size    = 100M
-sort_buffer_size   = 500K
+sort_buffer_size   = 64M
+tmp_table_size     = 256M
 max_heap_table_size = 256M
+read_buffer_size   = 128M
+
 
 innodb_file_per_table
 innodb_data_file_path = ibdata1:10M:autoextend
